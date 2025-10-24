@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         poipiku图片下载
 // @namespace    https://github.com/coofo/someScript
-// @version      0.2.6
+// @version      0.2.7
 // @license      AGPL License
 // @description  poipiku图片下载的试做，需要key才能看的图片要输入key后才能下载
 // @author       coofo
@@ -17,6 +17,7 @@
 // @require      https://greasyfork.org/scripts/453329-coofoutils-comicinfo/code/coofoUtils-comicInfo.js?version=1106598
 // @connect      img.poipiku.com
 // @connect      img-org.poipiku.com
+// @connect      cdn.poipiku.com
 // @grant        GM_download
 // @grant        GM_xmlhttpRequest
 // @grant        GM_setValue
@@ -499,11 +500,12 @@
                 generateTask: function (taskItem, item) {
                     tools.poipiku.api.getOrgImgUrl(item.parent.info.userId, item.info.id, imgUrls => {
                         for (let i = 0; i < imgUrls.length; i++) {
+
                             item.images.push({
                                 parent: item,
                                 info: {
                                     page: i + 1,
-                                    suffix: "." + coofoUtils.commonUtils.format.file.getSuffix(imgUrls[i])
+                                    suffix: imgUrls[i].match(/.*(\.[^?]*).*/)[1]
                                 },
                                 imgUrl: imgUrls[i],
                                 file: null
