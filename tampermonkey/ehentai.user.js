@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ehentai ComicInfo.xml 生成
 // @namespace    https://github.com/coofo/someScript
-// @version      0.0.5
+// @version      0.0.6
 // @license      AGPL License
 // @description  下载
 // @author       coofo
@@ -25,7 +25,7 @@
     GM_registerMenuCommand("生成 ComicInfo.xml", function () {
         let tag = {};
         $("#taglist tr").toArray().forEach(o => {
-            let tagGroup = $(o).find("td.tc").text().replace(":", "");
+            let tagGroup = $(o).find("td.tc").text().replace(":", "").replace("：", "");
             let tags = $(o).find("div>a").toArray().map(o => $(o).text());
             tag[tagGroup] = tags;
         });
@@ -47,14 +47,14 @@
                 continue;
             }
             switch (key){
-                case 'artist:':
-                case '艺术家：':
-                case 'group:':
-                case '社团：':
+                case 'artist':
+                case '艺术家':
+                case 'group':
+                case '社团':
                     artist = artist.concat(info.tag[key]);
                     break;
-                case 'character:':
-                case '角色：':
+                case 'character':
+                case '角色':
                     characters = characters.concat(info.tag[key]);
                     break;
                 default:
